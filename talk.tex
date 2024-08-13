@@ -1,0 +1,27 @@
+\documentclass[aspectratio=169,handout]{beamer}
+
+\makeatletter
+\appto\input@path{{pkgs/awesome-beamer},{pkgs/smile}}
+\makeatother
+
+\definecolor{dgreen}{HTML}{081c15}
+\usetheme[english,color,coloraccent=dgreen,notoc]{awesome}
+
+\usepackage[sfdefault]{FiraSans}
+
+\usepackage[duration=25,defaulttransition=fade]{pdfpc}
+\newcommand<>{\talknote}[1]{\only#2{\pdfpcnote{- #1}\relax}}
+
+\background{uni.jpg}
+\title{CHR meets Zig}
+\subtitle{Exploring properties of constraint programs}
+\author{Lukas Pietzschmann}
+\email{lukas.pietzschmann@uni-ulm.de}
+\institute{Zigtoberfest}
+\uni{Hochschule München}
+\location{Munich}
+\date{October 19$^\text{th}$, 2024}
+
+\begin{document}
+\maketitle
+\end{document}
