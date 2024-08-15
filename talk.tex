@@ -8,6 +8,7 @@
 \usetheme[english,color,coloraccent=dgreen,notoc,hyperref]{awesome}
 
 \usepackage{fontawesome5}
+\usepackage{tikzpingus}
 
 \usepackage[sfdefault]{FiraSans}
 
@@ -27,16 +28,16 @@
 \makeatletter
 \newsavebox\avatar
 \savebox\avatar{\begin{tikzpicture}
-	\node[roundnode,fill=accent,inner sep=0,outer sep=0,minimum width=2cm+\smile@linewidth,shadow] at (0,0) {};
-	\clip (0,0) circle (1cm);
-	\node at (0,0) {\includegraphics[width=2cm]{me.png}};
+	\node[roundnode,fill=accent,inner sep=0,outer sep=0,minimum width=1.75cm+\smile@linewidth] at (0,0) {};
+	\clip (0,0) circle (\dimexpr1.75cm/2\relax);
+	\node at (0,0) {\includegraphics[width=1.75cm]{me.png}};
 \end{tikzpicture}}
 
 \def\link #1 to #2;{\def\ULdepth{.5pt}\def\ULthickness{.1pt}\uline{\href{#2}{#1}}}
 
 \def\amcard#1#2#3{\begin{tikzpicture}
 	\node (T) {\faCaretRight~#2};
-	\node[below=1mm of T.south west,anchor=north west,text width=\textwidth/2-1cm,align=left] (D) {\small#3};
+	\node[below=1mm of T.south west,anchor=north west,text width=\textwidth/2-8.5mm,align=justify] (D) {\small#3};
 	\node[roundednode,fit=(T)(D),node on layer=background,fill=lightgray!20] (F) {};
 	\node[node on layer=background,anchor=north east,scale=2,opacity=0.1] at (F.north east) {#1};
 \end{tikzpicture}}
@@ -50,15 +51,16 @@
 \section{About Me}
 \begin{frame}
 	\frametitle{About Me}
-	\begin{tikzpicture}[o]
-		\node[right,xshift=\beamer@leftmargin,yshift=17mm] at (current page.west) {\usebox\avatar};
-	\end{tikzpicture}
 	\begin{tikzpicture}[node distance=2mm]
-		\node             (S) {\amcard{\faUniversity}{Studies}{I'm currently studying computer science for my master's degree at Germany's highest university.}};
-		\node[right=of S] (I) {\amcard{\faLightbulb}{Interests}{I enjoy many things, but compilers, typesetting, and functional programming spark the most joy inside me.}};
+		\node[roundednode,shadow,draw=none,fill=lightgray,node on layer=background,minimum width=\textwidth,minimum height=2cm] (B) {};
+		\node[xshift=1.75cm/2+0.25cm] at (B.west) {\usebox\avatar};
+		\node[] at (B) {\bfseries Hi, I'm Lukas!};
+		\begin{scope}[scale=0.6]
+			\pingu[left wing wave,heart=accent,shift={(7cm,2mm)}]
+		\end{scope}
 
-		\node[below=of S] (H) {\amcard{\faHome}{Homepage}{If you wanna find out more about me, check out my \link homepage to https://lukas.pietzschmann.org; (or talk to me).}};
-		\node[right=of H] (D) {\amcard{}{Ducks}{Ducks Ducks Ducks Ducks Ducks Ducks Ducks Ducks Ducks Ducks}};
+		\node[below=of B.south west,anchor=north west] (S) {\amcard{\faUniversity}{Studies}{I'm studying computer science for my master's degree at Ulm University. Currently, I'm working on my thesis.}};
+		\node[below=of B.south east,anchor=north east] (I) {\amcard{\faLightbulb}{Interests}{I enjoy various things, but compilers, typesetting, and functional programming spark the most joy inside me.}};
 	\end{tikzpicture}
 \end{frame}
 \end{document}
