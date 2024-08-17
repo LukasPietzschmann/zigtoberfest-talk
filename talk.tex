@@ -5,7 +5,24 @@
 \makeatother
 
 \definecolor{dgreen}{HTML}{081c15}
-\usetheme[english,color,coloraccent=dgreen,notoc,hyperref]{awesome}
+\usetheme[english,color,coloraccent=dgreen,notoc,hyperref,listings]{awesome}
+
+\usepackage[
+	backend=biber,
+	style=alphabetic
+]{biblatex}
+\usepackage[strict,autostyle]{csquotes}
+\nocite{*}
+\addbibresource{refs.bib}
+
+\usetikzlibrary{tikzmark}
+\def\m#1{\tikzmark{#1}}
+\newcommand<>\ul[5][0pt]{\begin{tikzpicture}[o,blend mode=multiply]
+	\coordinate(#5_west) at ([yshift=#1-0.25ex]pic cs:#3);
+	\coordinate(#5_east) at ([yshift=#1+0.35ex]pic cs:#4);
+	\fill[ul=#2,visible on=#6] (#5_west) rectangle node(#5){} (#5_east);
+\end{tikzpicture}}
+\tikzset{ul/.style={#1!70!black,opacity=0.40,rounded corners=.17ex}}
 
 \usepackage{fontawesome5}
 \usepackage{tikzpingus}
@@ -42,6 +59,33 @@
 	\node[node on layer=background,anchor=north east,scale=2,opacity=0.1] at (F.north east) {#1};
 \end{tikzpicture}}
 
+\tikzset{bb/.style={draw=tcbcolframe,dash pattern=on 1mm off 1mm,dash phase=0.5mm,tcb@spec,segmentation@style}}
+\def\setlinetext#1{\small\color{tcbcolframe}\contourlength{1.5pt}\contour{tcbcolback}{#1}}
+\newenvironment{versusbox}[1][]{
+	\begin{beamerbox}[sidebyside,segmentation code={
+		\path[bb] (segmentation.north) to node[rotate=90]{\setlinetext{#1}} (segmentation.south);
+	}]{gray}{}%
+}{\end{beamerbox}}
+
+\usepackage[verbatim]{lstfiracode}
+\lstdefinestyle{firastyleb}{style=FiraCodeStyle,style=smile@lst@base}
+\lstdefinestyle{firastylep}{style=FiraCodeStyle,style=smile@lst@plain}
+\lstset{tabsize=4,style=firastylep}
+\lstdefinelanguage{chr}{
+	keywords={/, <=>, true}
+}
+\lstnewenvironment{chr}{\lstset{language=chr}}{}
+
+
+\def\signed#1{{\leavevmode\unskip\nobreak\hfil\penalty50\hskip2em
+	\hbox{}\nobreak\hfil(#1)%
+	\parfillskip=0pt \finalhyphendemerits=0 \endgraf}}
+
+\newsavebox\quotebox
+\newenvironment{aquote}[1]
+	{\savebox\quotebox{#1}\begin{quote}}
+	{\signed{\usebox\quotebox}\end{quote}}
+
 \begin{document}
 
 \makeatletter
@@ -62,5 +106,42 @@
 		\node[below=of B.south west,anchor=north west] (S) {\amcard{\faUniversity}{Studies}{I'm studying computer science for my master's degree at Ulm University. Currently, I'm working on my thesis.}};
 		\node[below=of B.south east,anchor=north east] (I) {\amcard{\faLightbulb}{Interests}{I enjoy various things, but compilers, typesetting, and functional programming spark the most joy inside me.}};
 	\end{tikzpicture}
+\end{frame}
+
+\section{Motivation}
+\begin{frame}[fragile]
+	\frametitle[\cite{freuder1997}]{Motivation}
+	\begin{aquote}{Eugene C. Freuder}
+		Constraint Programming represents one of the closest approaches computer science
+		has yet made to the holy grail of programming: the user states the problem, the
+		computer solves it.
+	\end{aquote}\bigskip
+	\lstset{xleftmargin=15mm}\begin{chr}
+§\m{ps1}§prime(N)§\m{pe1}§ §\m{rem1s}§\§\m{rem1e}§ §\m{ps2}§prime(M)§\m{pe2}§ §\m{simpa1s}§<=>§\m{simpa1e}§ §\m{gs1}§M % N = 0§\m{ge1}§ | §\m{rs1}§true§\m{re1}§.
+	\end{chr}
+	\ul<1->{blue}{ps1}{pe1}{p1}%
+	\ul<1->{gray}{rem1s}{rem1e}{rem1}%
+	\ul<1->{blue}{ps2}{pe2}{p2}%
+	\ul<1->{gray}{simpa1s}{simpa1e}{simpa1}%
+	\ul<1->{green}{gs1}{ge1}{g1}%
+	\ul<1->{red}{rs1}{re1}{r1}%
+	\begin{tikzpicture}[o,execute at begin node={\small}]
+		\node[shift={(-2.2cm,-7mm)}] at (p1) (P1) {First prime constraint};
+		\node[shift={(-1.5cm, -13mm)}] at (rem1) (REM1) {Simpagation};
+		\node[shift={(2.5cm,-13mm)}] at (p2) (P2) {Second prime constraint};
+		\node[shift={(1cm,-7mm)}] at (g1) (G1) {Guard};
+		\node[shift={(1cm,-7mm)}] at (r1) (R1) {Result};
+
+		\draw[textarrow=blue] (P1) -| (p1);
+		\draw[textarrow=gray] (REM1) -| (rem1);
+		\draw[textarrow=blue] (P2) -| (p2);
+		\draw[textarrow=green] (G1) -| (g1);
+		\draw[textarrow=red] (R1) -| (r1);
+	\end{tikzpicture}
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+	\frametitle{References}
+	\printbibliography
 \end{frame}
 \end{document}
