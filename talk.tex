@@ -75,7 +75,7 @@
 	keywords={/, <=>, true}
 }
 \lstnewenvironment{chr}{\lstset{language=chr}}{}
-
+\newcommand\chri[2][]{\lstinline[language=chr,#1]{#2}}
 
 \def\signed#1{{\leavevmode\unskip\nobreak\hfil\penalty50\hskip2em
 	\hbox{}\nobreak\hfil(#1)%
@@ -138,6 +138,39 @@
 		\draw[textarrow=green] (G1) -| (g1);
 		\draw[textarrow=red] (R1) -| (r1);
 	\end{tikzpicture}
+\end{frame}
+
+\section{CHR Syntax and Semantic}
+\begin{frame}
+	\frametitle[Rules]{Introduction to CHR}
+	CHR knows about three kinds of rules:\par\medskip
+	\begin{wide}
+	\begin{columns}[c]
+		\begin{column}{0.33\textwidth}
+			\begin{block}[Propagation]
+				\centerline{\chri{C => G | CN}}\medskip
+				\chri{CN} is added if \chri{G} holds
+			\end{block}
+		\end{column}
+		\begin{column}{0.33\textwidth}
+			\begin{block}[Simplification]
+				\centerline{\chri{C <=> G | CN}}\medskip
+				\chri{CO} is replaced by \chri{CN} if \chri{G} holds
+			\end{block}
+		\end{column}
+		\begin{column}{0.33\textwidth}
+			\begin{block}[Simpagation]
+				\centerline{\chri{C}$_1$ \chri{\\ C}$_2$ \chri{<=> G | CN}}\medskip
+				\chri{CO} is replaced by \chri{CN} if \chri{G} holds
+			\end{block}
+		\end{column}
+	\end{columns}
+	\end{wide}\par\bigskip
+	\begin{tabular}{r|l|l}
+		C  & Head  & CHR Constraints                           \\
+		G  & Guard & Conjunction of built-ins                  \\
+		CN & Body  & CHR Constraints and conjunction built-ins
+	\end{tabular}
 \end{frame}
 
 \section{References}
