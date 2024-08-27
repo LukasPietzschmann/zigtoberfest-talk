@@ -28,6 +28,16 @@
 \usepackage{tikzpingus}
 
 \usepackage[sfdefault]{FiraSans}
+\usepackage{firamath-otf}
+\usepackage{fontspec}
+\setmonofont[
+	Path = ./fonts/,
+	Scale = .9,
+	Extension = .ttf,
+	Contextuals=Alternate,
+	BoldFont={*-Bold},
+	UprightFont={*-Regular},
+]{Fira Code}
 
 \usepackage[duration=25,defaulttransition=fade]{pdfpc}
 \newcommand<>{\talknote}[1]{\only#2{\pdfpcnote{- #1}\relax}}
