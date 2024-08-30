@@ -178,15 +178,18 @@
 	\end{wide}\par\bigskip
 	\begin{tabular}{r|l|l}
 		C  & Head  & CHR Constraints                           \\
-		G  & Guard & Conjunction of built-ins                  \\
+		G  & Guard & Conjunction of \m{bu1s}built-ins\m{bu1e}  \\
 		CN & Body  & CHR Constraints and conjunction built-ins
 	\end{tabular}
+	\ul<1->{gray}{bu1s}{bu1e}{bi}\begin{tikzpicture}[o]
+		\node[shift={(26mm,5mm)}] at (bi) (BI) {\small\color{darkgray}Zig expressions};
+		\draw[textarrow,shorten <=0] (BI.west) to (bi_east);
+	\end{tikzpicture}
 	\begin{modal}<2>[Generalized Simpagation Rule]
-		\begin{itemize}
-			\item Propagation and simplification rules are just specialized simpagation rules
-			\item Behind the curtain, the embedding also only uses simpagations
-			\item We, however, will always use the most specific rule
-		\end{itemize}
+		\hskip5mm\par Behind the curtain, the embedding represents every rule as a 4-tuple:
+		\[\langle KH, RH, G, B \rangle\]
+		$KH$: Kept Head\hfill$RH$: Removed Head\hfill$G$: Guard\hfill$B$: Body\par\medskip
+		A propagation rule would then look like this: $\langle KH, \emptyset, G, B \rangle$
 	\end{modal}
 	\onslide<2>\begin{tikzpicture}[o,scale=0.5]
 		\pingu[small,heart=accent,halo=blue,staff right,right wing wave,shift={(2.5cm,-1.8cm)}] at (current page.south east)
