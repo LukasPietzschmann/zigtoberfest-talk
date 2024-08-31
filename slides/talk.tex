@@ -127,7 +127,7 @@
 		computer solves it.
 	\end{aquote}\bigskip
 	\lstset{xleftmargin=15mm}\begin{chr}
-§\m{ps1}§prime(N)§\m{pe1}§ §\m{rem1s}§\§\m{rem1e}§ §\m{ps2}§prime(M)§\m{pe2}§ §\m{simpa1s}§<=>§\m{simpa1e}§ §\m{gs1}§M % N = 0§\m{ge1}§ | §\m{rs1}§true§\m{re1}§.
+§\m{ps1}§min(N)§\m{pe1}§ §\m{rem1s}§\§\m{rem1e}§ §\m{ps2}§min(M)§\m{pe2}§ §\m{simpa1s}§<=>§\m{simpa1e}§ §\m{gs1}§N <= M§\m{ge1}§ | §\m{rs1}§true§\m{re1}§.
 	\end{chr}
 	\ul<1->{blue}{ps1}{pe1}{p1}%
 	\ul<1->{gray}{rem1s}{rem1e}{rem1}%
@@ -136,11 +136,11 @@
 	\ul<1->{green}{gs1}{ge1}{g1}%
 	\ul<1->{red}{rs1}{re1}{r1}%
 	\begin{tikzpicture}[o,execute at begin node={\small}]
-		\node[shift={(-2.2cm,-7mm)}] at (p1) (P1) {First prime constraint};
-		\node[shift={(-1.5cm, -13mm)}] at (rem1) (REM1) {Simpagation};
-		\node[shift={(2.5cm,-13mm)}] at (p2) (P2) {Second prime constraint};
-		\node[shift={(1cm,-7mm)}] at (g1) (G1) {Guard};
-		\node[shift={(1cm,-7mm)}] at (r1) (R1) {Result};
+		\node[shift={(-4mm,-7mm)},left] at (p1) (P1) {First min constraint};
+		\node[shift={(-4mm, -13mm)},left] at (rem1) (REM1) {Operation};
+		\node[shift={(4mm,-13mm)},right] at (p2) (P2) {Second min constraint};
+		\node[shift={(4mm,-7mm)},right] at (g1) (G1) {Guard};
+		\node[shift={(4mm,-7mm)},right] at (r1) (R1) {Result};
 
 		\draw[textarrow=blue] (P1) -| (p1);
 		\draw[textarrow=gray] (REM1) -| (rem1);
