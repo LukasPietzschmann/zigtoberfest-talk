@@ -151,7 +151,7 @@
 \end{frame}
 
 \section{CHR Syntax and Semantic}
-\begin{frame}
+\begin{frame}[label={rules}]
 	\frametitle[Rules]{Introduction to CHR}
 	CHR knows about three kinds of rules:\par\medskip
 	\begin{wide}
@@ -196,8 +196,37 @@
 	\end{tikzpicture}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile,t]
 	\frametitle[Constraint Store]{Introduction to CHR}
+\end{frame}
+
+\section{The Embedding}
+\tikzset{paper/.style={roundednode,anchor=south east,rotate=#1}}
+\newsavebox\paper
+\savebox\paper{\begin{tikzpicture}
+	\node[paper=-10,xshift=4mm] (3) {\includegraphics[page=3,width=2.5cm]{FreeCHR.pdf}};
+	\node[paper=-05,xshift=2mm] (2) {\includegraphics[page=2,width=2.5cm]{FreeCHR.pdf}};
+	\node[paper=-00,xshift=0mm] (1) {\includegraphics[page=1,width=2.5cm]{FreeCHR.pdf}};
+\end{tikzpicture}}
+\begin{frame}
+	\frametitle{Inner workings of the Embedding}
+	\begin{wide}
+	\begin{columns}[c]
+		\begin{column}{\dimexpr\textwidth-\wd\paper\relax}
+			\begin{itemize}
+				\item Based on the concepts established in~\citetitle{rechenberger2023}~\cite{rechenberger2023}
+			\end{itemize}\par\bigskip
+			\begin{itemize}
+				\item Every rule is represented as a 4-tuple (see slide \ref{rules<2>})
+				\item We then compose more complex programs from subprograms --- or ultimately from single rules
+				\item Lastly, we apply the composition to a state until a fixpoint is reached
+			\end{itemize}
+		\end{column}
+		\begin{column}{\wd\paper}
+			\usebox\paper
+		\end{column}
+	\end{columns}
+	\end{wide}
 \end{frame}
 
 \section{References}
