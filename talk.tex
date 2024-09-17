@@ -23,6 +23,11 @@
 	\fill[ul=#2,visible on=#6] (#5_west) rectangle node(#5){} (#5_east);
 \end{tikzpicture}}
 \tikzset{ul/.style={#1!70!black,opacity=0.40,rounded corners=.17ex}}
+\def\um#1#2#3{\begin{tikzpicture}[o]
+	\coordinate(#3_west) at ([yshift=0ex]pic cs:#1);
+	\coordinate(#3_east) at ([yshift=0ex]pic cs:#2);
+	\coordinate(#3) at ($(#3_west)!0.5!(#3_east)$);
+\end{tikzpicture}}
 
 \usepackage{fontawesome5}
 \usepackage{tikzpingus}
@@ -61,6 +66,10 @@
 \end{tikzpicture}}
 
 \def\link #1 to #2;{\def\ULdepth{.5pt}\def\ULthickness{.1pt}\uline{\href{#2}{#1}}}
+\def\ergo{\raisebox{-1pt}{\faAngleRight}}
+\newcommand<>\tc[2]{\textcolor#3{#1}{#2}}
+\newcommand<>\cg[1]{\tc#2{gray}{#1}}
+\newcommand<>\cb[1]{\tc#2{black}{#1}}
 
 \def\amcard#1#2#3{\begin{tikzpicture}
 	\node (T) {\faCaretRight~#2};
@@ -120,7 +129,7 @@
 
 \section{Motivation}
 \begin{frame}[fragile]
-	\frametitle{Motivation}
+	\frametitle[A first small example]{Motivation}
 	\begin{aquote}{Eugene C. Freuder~\cite{freuder1997}}
 		Constraint Programming represents one of the closest approaches computer science
 		has yet made to the holy grail of programming: the user states the problem, the
@@ -198,10 +207,54 @@
 
 \begin{frame}[fragile,t]
 	\frametitle[Constraint Store]{Introduction to CHR}
+	\begin{tikzpicture}\tikzset{query/.style={roundednode,inner sep=1.5mm,fill=lightgray!25,draw=gray,minimum width=\textwidth,text width=\textwidth}}
+		\def\q{\only<1>{\color{gray}~Query~\ldots}}
+		\only<-4>{\node[query] (Q) {\strut\cg{\ergo}\q\ttfamily~\only<2->{min(3)}\only<3->{, min(1)}\only<4->{, min(5)}};}
+		\only<5->{\node[query] (Q) {\strut\cg{\ergo}\color{gray}\ttfamily~\cb<5->{min(3)}, \cb<8->{min(1)}, \cb<9->{min(5)}};}
+	\end{tikzpicture}
+
+	{\ttfamily%
+		\m{ps3}\cg<6>{min(N)}\m{pe3}
+		\chri{\\}
+		\m{ps4}min(M)\m{pe4}
+		\chri{<=>}
+		\m{gs2}N\m{ge2}
+		\chri{<=}
+		\m{rs2}M\m{re2}
+		|
+		\chri{true}%
+	}
+	\um{ps3}{pe3}{x}%
+	\um{ps4}{pe4}{y}%
+	\um{gs2}{ge2}{z}%
+	\um{rs2}{re2}{a}%
+	\begin{tikzpicture}[o]
+		\node[visible on=<6>] at (x) {\bfseries\chri{min(3)}};
+		\node at (y) {\chri{min(N)}};
+		\node at (z) {\chri{1}};
+		\node at (a) {\chri{2}};
+
+		\node[roundednode,lcr,dashed,fill=lightgray!25,draw=gray,minimum width=\awesome@sidebarwidth-3mm,minimum height=3cm,anchor=north west,xshift=\awesome@textmargin] at ([yshift=-1.5cm]current page.north west) (S) {};
+		\node[roundednode,color=black,text=white] at (S.south) {\tiny Constraint Store};
+
+		\node[anchor=north,yshift=-2mm,visible on=<7->] at (S.north) {\ttfamily min(3)};
+		\node[anchor=north,yshift=-9mm,visible on=<8->] at (S.north) {\ttfamily min(1)};
+		\node[anchor=north,yshift=-16mm,visible on=<10->] at (S.north) {\ttfamily min(5)};
+	\end{tikzpicture}
+	\begin{enumerate}
+		\item Make query constraints active
+		\item Go through them; left to right
+		\item Try to match them to the head of a rule
+			\begin{itemize}
+				\item Go through all rules; top to bottom
+				\item If a rule matches, apply it
+				\item If the constraint was not explicitly removed, make it passive and put it in the store
+			\end{itemize}
+	\end{enumerate}
 \end{frame}
 
 \section{The Embedding}
-\tikzset{paper/.style={roundednode,anchor=south east,rotate=#1}}
+\tikzset{paper/.style={roundednode,anchor=south east,rotate=#1,shadow}}
 \newsavebox\paper
 \savebox\paper{\begin{tikzpicture}
 	\node[paper=-10,xshift=4mm] (3) {\includegraphics[page=3,width=2.5cm]{FreeCHR.pdf}};
@@ -227,6 +280,14 @@
 		\end{column}
 	\end{columns}
 	\end{wide}
+\end{frame}
+
+\section{Some interesting examples}
+\begin{frame}
+	\frametitle{The Embedding}
+	fib example zeigen, mit generate rule
+
+	map reduce als real life example
 \end{frame}
 
 \section{References}
