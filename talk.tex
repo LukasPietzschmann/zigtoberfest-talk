@@ -31,6 +31,7 @@
 
 \usepackage{fontawesome5}
 \usepackage{tikzpingus}
+\usepackage{fancyqr}
 
 \usepackage[sfdefault]{FiraSans}
 \usepackage{firamath-otf}
@@ -280,6 +281,33 @@
 		\end{column}
 	\end{columns}
 	\end{wide}
+\end{frame}
+
+\newsavebox\pingub
+\savebox\pingub{\begin{tikzpicture}
+	\pingu[heart=accent,sun glasses,head band=red,wings wave,banner=Check it out!]
+\end{tikzpicture}}
+\begin{frame}
+	\frametitle{ZigCHR online}
+	\begin{wide}
+	\begin{columns}[c]
+		\begin{column}{\dimexpr\textwidth-4cm\relax}
+			\begin{itemize}
+				\item The embedding's source code is available on \link GitHub to https://github.com/LukasPietzschmann/zigchr;
+				\item Or you can try it out online
+			\end{itemize}
+		\end{column}
+		\begin{column}{4cm}
+			\begin{center}
+				\fancyqr[height=3cm,color=accent]{https://lukas.pietzschmann.org/talks/zigtoberfest}\par
+				\parbox{4cm}{\centering\tiny\url{https://lukas.pietzschmann.org/talks/zigtoberfest}}
+			\end{center}
+		\end{column}
+	\end{columns}
+	\end{wide}
+	\begin{tikzpicture}[o]
+		\node[shift={(6mm,1.3cm)},rotate=-30,scale=0.5] at (current page.south west) (P) {\usebox\pingub};
+	\end{tikzpicture}
 \end{frame}
 
 \section{Some interesting examples}
