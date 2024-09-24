@@ -208,50 +208,58 @@
 
 \begin{frame}[fragile,t]
 	\frametitle[Constraint Store]{Introduction to CHR}
-	\begin{tikzpicture}\tikzset{query/.style={roundednode,inner sep=1.5mm,fill=lightgray!25,draw=gray,minimum width=\textwidth,text width=\textwidth}}
-		\def\q{\only<1>{\color{gray}~Query~\ldots}}
-		\only<-4>{\node[query] (Q) {\strut\cg{\ergo}\q\ttfamily~\only<2->{min(3)}\only<3->{, min(1)}\only<4->{, min(5)}};}
-		\only<5->{\node[query] (Q) {\strut\cg{\ergo}\color{gray}\ttfamily~\cb<5->{min(3)}, \cb<8->{min(1)}, \cb<9->{min(5)}};}
-	\end{tikzpicture}
+	\vspace{7mm}
+	\begin{columns}[T]
+		\begin{column}{0.65\textwidth}
+			\begin{tikzpicture}\tikzset{query/.style={roundednode,inner sep=1.5mm,fill=lightgray!25,draw=gray,minimum width=6.7cm,text width=6.7cm}}
+				\def\q{\only<1>{\color{gray}~Query~\ldots}}
+				\only<-4>{\node[query] (Q) {\strut\cg{\ergo}\q\ttfamily~\only<2->{min(3)}\only<3->{, min(1)}\only<4->{, min(5)}};}
+				\only<5->{\node[query] (Q) {\strut\cg{\ergo}\color{gray}\ttfamily~\cb<5-7>{min(3)}, \cb<9-12>{min(1)}, \cb<14-16>{min(5)}};}
+			\end{tikzpicture}
+			{\ttfamily%
+				\m{ps3}\cg<6-8,10-13,15-16>{min(N)}\m{pe3}
+				\chri{\\}
+				\m{ps4}\cg<6-8,10-13,15-16>{min(M)}\m{pe4}
+				\chri{<=>}
+				\m{gs2}\cg<6-8,10-13,15-16>{N}\m{ge2}
+				\chri{<=}
+				\m{rs2}\cg<6-8,10-13,15-16>{M}\m{re2}
+				\chri|
+				\chri{true}%
+			}\um{ps3}{pe3}{x}\um{ps4}{pe4}{y}\um{gs2}{ge2}{z}\um{rs2}{re2}{a}\par\vskip7mm
+			\ergo~\only<-4>{Add constraints to solve for}%
+			\only<5-7,10-11,15-16>{Check if we can find a matching for the currently active constraint}%
+			\only<8,12-13>{Fire the rule that matched}%
+			\only<9,14,17>{Make next query constraint active}%
+			\only<18>{The remaining constraints in the store are the solution}%
+		\end{column}
+		\begin{column}{0.25\textwidth}
+			\begin{tikzpicture}
+				\node[roundednode,lcr,dashed,fill=lightgray!25,draw=gray,minimum width=\awesome@sidebarwidth-3mm,minimum height=3cm,anchor=north west,xshift=\awesome@textmargin] at ([yshift=-1.5cm]current page.north west) (S) {};
+				\node[roundednode,color=black,text=white] at (S.south) {\tiny Constraint Store};
 
-	{\ttfamily%
-		\m{ps3}\cg<6>{min(N)}\m{pe3}
-		\chri{\\}
-		\m{ps4}min(M)\m{pe4}
-		\chri{<=>}
-		\m{gs2}N\m{ge2}
-		\chri{<=}
-		\m{rs2}M\m{re2}
-		|
-		\chri{true}%
-	}
-	\um{ps3}{pe3}{x}%
-	\um{ps4}{pe4}{y}%
-	\um{gs2}{ge2}{z}%
-	\um{rs2}{re2}{a}%
+				\node[anchor=north,yshift=-2mm,visible on=<8-11>] at (S.north) {\ttfamily min(3)};
+				\node[anchor=north,yshift=-2mm,visible on=<13->] at (S.north) {\ttfamily min(1)};
+			\end{tikzpicture}
+		\end{column}
+	\end{columns}
 	\begin{tikzpicture}[o]
 		\node[visible on=<6>] at (x) {\bfseries\chri{min(3)}};
-		\node at (y) {\chri{min(N)}};
-		\node at (z) {\chri{1}};
-		\node at (a) {\chri{2}};
+		\node[visible on=<10-12>] at (x) {\bfseries\chri{min(1)}};
+		\node[visible on=<16>] at (x) {\bfseries\chri{min(1)}};
 
-		\node[roundednode,lcr,dashed,fill=lightgray!25,draw=gray,minimum width=\awesome@sidebarwidth-3mm,minimum height=3cm,anchor=north west,xshift=\awesome@textmargin] at ([yshift=-1.5cm]current page.north west) (S) {};
-		\node[roundednode,color=black,text=white] at (S.south) {\tiny Constraint Store};
+		\node[visible on=<7>] at (y) {\bfseries\chri{min(3)}};
+		\node[visible on=<11-12>] at (y) {\bfseries\chri{min(3)}};
+		\node[visible on=<15-16>] at (y) {\bfseries\chri{min(5)}};
 
-		\node[anchor=north,yshift=-2mm,visible on=<7->] at (S.north) {\ttfamily min(3)};
-		\node[anchor=north,yshift=-9mm,visible on=<8->] at (S.north) {\ttfamily min(1)};
-		\node[anchor=north,yshift=-16mm,visible on=<10->] at (S.north) {\ttfamily min(5)};
+		\node[visible on=<6>] at (z) {\bfseries\chri{3}};
+		\node[visible on=<10-12>] at (z) {\bfseries\chri{1}};
+		\node[visible on=<16-16>] at (z) {\bfseries\chri{1}};
+
+		\node[visible on=<7>] at (a) {\bfseries\chri{3}};
+		\node[visible on=<11-12>] at (a) {\bfseries\chri{3}};
+		\node[visible on=<15-16>] at (a) {\bfseries\chri{5}};
 	\end{tikzpicture}
-	\begin{enumerate}
-		\item Make query constraints active
-		\item Go through them; left to right
-		\item Try to match them to the head of a rule
-			\begin{itemize}
-				\item Go through all rules; top to bottom
-				\item If a rule matches, apply it
-				\item If the constraint was not explicitly removed, make it passive and put it in the store
-			\end{itemize}
-	\end{enumerate}
 \end{frame}
 
 \section{The Embedding}
