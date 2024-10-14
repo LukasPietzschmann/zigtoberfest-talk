@@ -123,62 +123,64 @@
 			\pingu[left wing wave,heart=accent,shift={(7cm,2mm)}]
 		\end{scope}
 
-		\node[below=of B.south west,anchor=north west] (S) {\amcard{\faUniversity}{Studies}{I'm studying computer science for my master's degree at Ulm University. Currently, I'm working on my thesis.}};
-		\node[below=of B.south east,anchor=north east] (I) {\amcard{\faLightbulb}{Interests}{I enjoy various things, but compilers, typesetting, and functional programming spark the most joy inside me.}};
+		\uncover<2->{\node[below=of B.south west,anchor=north west] (S) {\amcard{\faUniversity}{Studies}{I'm studying computer science for my master's degree at Ulm University. Currently, I'm working on my thesis.}};}
+		\uncover<3->{\node[below=of B.south east,anchor=north east] (I) {\amcard{\faLightbulb}{Interests}{I enjoy various things, but compilers, typesetting, and functional programming spark the most joy inside me.}};}
 	\end{tikzpicture}
 \end{frame}
 
 \section{Motivation}
 \begin{frame}[fragile]
 	\frametitle[A first small example]{Motivation}
-	\begin{aquote}{Eugene C. Freuder~\cite{freuder1997}}
-		Constraint Programming represents one of the closest approaches computer science
-		has yet made to the holy grail of programming: the user states the problem, the
-		computer solves it.
-	\end{aquote}\bigskip
+	\begin{onlyenv}<2->
+		\begin{aquote}{Eugene C. Freuder~\cite{freuder1997}}
+			Constraint Programming represents one of the closest approaches computer science
+			has yet made to the holy grail of programming: the user states the problem, the
+			computer solves it.
+		\end{aquote}\bigskip
+	\end{onlyenv}\onslide<3->
 	\lstset{xleftmargin=15mm}\begin{chr}
 §\m{ps1}§min(N)§\m{pe1}§ §\m{rem1s}§\§\m{rem1e}§ §\m{ps2}§min(M)§\m{pe2}§ §\m{simpa1s}§<=>§\m{simpa1e}§ §\m{gs1}§N <= M§\m{ge1}§ | §\m{rs1}§true§\m{re1}§
 	\end{chr}
-	\ul<1->{blue}{ps1}{pe1}{p1}%
-	\ul<1->{gray}{rem1s}{rem1e}{rem1}%
-	\ul<1->{blue}{ps2}{pe2}{p2}%
-	\ul<1->{gray}{simpa1s}{simpa1e}{simpa1}%
-	\ul<1->{green}{gs1}{ge1}{g1}%
-	\ul<1->{red}{rs1}{re1}{r1}%
+	\ul<4->{blue}{ps1}{pe1}{p1}%
+	\ul<5->{gray}{rem1s}{rem1e}{rem1}%
+	\ul<4->{blue}{ps2}{pe2}{p2}%
+	\ul<5->{gray}{simpa1s}{simpa1e}{simpa1}%
+	\ul<6->{green}{gs1}{ge1}{g1}%
+	\ul<7->{red}{rs1}{re1}{r1}%
 	\begin{tikzpicture}[o,execute at begin node={\small}]
-		\node[shift={(-4mm,-7mm)},left] at (p1) (P1) {First min constraint};
-		\node[shift={(-4mm, -13mm)},left] at (rem1) (REM1) {Operation};
-		\node[shift={(4mm,-13mm)},right] at (p2) (P2) {Second min constraint};
-		\node[shift={(4mm,-7mm)},right] at (g1) (G1) {Guard};
-		\node[shift={(4mm,-7mm)},right] at (r1) (R1) {Result};
+		\node[shift={(-4mm,-7mm)},left,visible on=<4->] at (p1) (P1) {First min constraint};
+		\node[shift={(-4mm, -13mm)},left,visible on=<5->] at (rem1) (REM1) {Operation};
+		\node[shift={(4mm,-13mm)},right,visible on=<4->] at (p2) (P2) {Second min constraint};
+		\node[shift={(4mm,-7mm)},right,visible on=<6->] at (g1) (G1) {Guard};
+		\node[shift={(4mm,-7mm)},right,visible on=<7->] at (r1) (R1) {Result};
 
-		\draw[textarrow=blue] (P1) -| (p1);
-		\draw[textarrow=gray] (REM1) -| (rem1);
-		\draw[textarrow=blue] (P2) -| (p2);
-		\draw[textarrow=green] (G1) -| (g1);
-		\draw[textarrow=red] (R1) -| (r1);
+		\draw[textarrow=blue,visible on=<4->] (P1) -| (p1);
+		\draw[textarrow=gray,visible on=<5->] (REM1) -| (rem1);
+		\draw[textarrow=blue,visible on=<4->] (P2) -| (p2);
+		\draw[textarrow=green,visible on=<6->] (G1) -| (g1);
+		\draw[textarrow=red,visible on=<7->] (R1) -| (r1);
 	\end{tikzpicture}
 \end{frame}
 
 \section{CHR Syntax and Semantic}
 \begin{frame}[label={rules}]
 	\frametitle[Rules]{Introduction to CHR}
-	CHR knows about three kinds of rules:\par\medskip
+	\onslide<2->CHR knows about three kinds of rules:\par\medskip
 	\begin{wide}
 	\begin{columns}[c]
-		\begin{column}{0.33\textwidth}
+		\begin{column}<3->{0.33\textwidth}
 			\begin{block}[Propagation]
 				\centerline{\chri{C => G | CN}}\medskip
 				\chri{CN} is inferred if \chri{G} holds
 			\end{block}
 		\end{column}
-		\begin{column}{0.33\textwidth}
+		\begin{column}<4->{0.33\textwidth}
 			\begin{block}[Simplification]
 				\centerline{\chri{C <=> G | CN}}\medskip
 				\chri{CO} is simplified to \chri{CN} if \chri{G} holds
 			\end{block}
 		\end{column}
-		\begin{column}{0.33\textwidth}
+		\begin{column}<5->{0.33\textwidth}
 			\begin{block}[Simpagation]
 				\centerline{\chri{C}$_1$ \chri{\\ C}$_2$ \chri{<=> G | CN}}\medskip
 				\chri{C}$_2$ is simplified to \chri{CN} if \chri{G} holds
@@ -187,21 +189,21 @@
 	\end{columns}
 	\end{wide}\par\bigskip
 	\begin{tabular}{r|l|l}
-		C  & Head  & CHR Constraints                           \\
-		G  & Guard & Conjunction of \m{bu1s}built-ins\m{bu1e}  \\
-		CN & Body  & CHR Constraints and conjunction built-ins
-	\end{tabular}
-	\ul<1->{gray}{bu1s}{bu1e}{bi}\begin{tikzpicture}[o]
-		\node[shift={(26mm,5mm)}] at (bi) (BI) {\small\color{darkgray}Zig expressions};
-		\draw[textarrow,shorten <=0] (BI.west) to (bi_east);
+		\onslide<8->C  & Head  & CHR Constraints                           \\
+		\onslide<9->G  & Guard & Conjunction of \m{bu1s}built-ins\m{bu1e}  \\
+		\onslide<11->CN & Body  & CHR Constraints and conjunction built-ins
+	\end{tabular}\onslide<1->
+	\ul<10->{gray}{bu1s}{bu1e}{bi}\begin{tikzpicture}[o]
+		\node[shift={(26mm,5mm)},visible on=<10->] at (bi) (BI) {\small\color{darkgray}Zig expressions};
+		\draw[textarrow,shorten <=0,visible on=<10->] (BI.west) to (bi_east);
 	\end{tikzpicture}
-	\begin{modal}<2>[Generalized Simpagation Rule]
+	\begin{modal}<6>[Generalized Simpagation Rule]
 		\hskip5mm\par Behind the curtain, the embedding represents every rule as a 4-tuple:
 		\[\langle KH, RH, G, B \rangle\]
 		$KH$: Kept Head\hfill$RH$: Removed Head\hfill$G$: Guard\hfill$B$: Body\par\medskip
 		A propagation rule would then look like this: $\langle KH, \emptyset, G, B \rangle$
 	\end{modal}
-	\onslide<2>\begin{tikzpicture}[o,scale=0.5]
+	\onslide<6>\begin{tikzpicture}[o,scale=0.5]
 		\pingu[small,heart=accent,halo=blue,staff right,right wing wave,shift={(2.5cm,-1.8cm)}] at (current page.south east)
 	\end{tikzpicture}
 \end{frame}
@@ -275,16 +277,16 @@
 	\begin{wide}
 	\begin{columns}[c]
 		\begin{column}{\dimexpr\textwidth-\wd\paper\relax}
-			\begin{itemize}
+			\begin{itemize}[<+(1)->]
 				\item Based on the concepts established in~\citetitle{rechenberger2023}~\cite{rechenberger2023}
 			\end{itemize}\par\bigskip
-			\begin{itemize}
+			\begin{itemize}[<+(1)->]
 				\item Every rule is represented as a 4-tuple (see slide \ref{rules<2>})
 				\item We then compose more complex programs from subprograms --- or ultimately from single rules
 				\item Lastly, we apply the composition to a state until a fixpoint is reached
 			\end{itemize}
 		\end{column}
-		\begin{column}{\wd\paper}
+		\begin{column}<2->{\wd\paper}
 			\usebox\paper
 		\end{column}
 	\end{columns}
