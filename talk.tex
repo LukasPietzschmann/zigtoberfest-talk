@@ -33,6 +33,11 @@
 \usepackage{tikzpingus}
 \usepackage{fancyqr}
 
+\def\checkbox{\raisebox{-2pt}{\begin{tikzpicture}[]
+	\node (B) {\color{accent}\scalebox{.65}{\faCheck}};
+	\node[roundednode,node on layer=background,fill=lightgray!30,rnd,minimum width=1.7ex,minimum height=1.7ex] at (B) {};
+\end{tikzpicture}}}
+
 \usepackage[sfdefault]{FiraSans}
 \usepackage{firamath-otf}
 \usepackage{fontspec}
@@ -321,11 +326,110 @@
 \end{frame}
 
 \section{Some interesting examples}
-\begin{frame}
-	\frametitle{The Embedding}
-	fib example zeigen, mit generate rule
+% \begin{frame}
+% 	\frametitle{The Embedding}
+% 	fib example zeigen, mit generate rule
+%
+% 	map reduce als real life example
+% \end{frame}
 
-	map reduce als real life example
+\begin{frame}[fragile]
+	\frametitle[What Confluence is]{Confluence}
+	\begin{wide}
+	\begin{columns}[c]
+		\begin{column}{0.48\textwidth}
+			\begin{block}[Rule order matters]
+			\begin{chr}
+				throw(Coin) <=> head
+				throw(Coin) <=> tail
+			\end{chr}
+			\begin{itemize}
+				\item Depending on which rule we check first, we get a different result
+				\item That's great for coin tossing
+				\item Not so much for determinism
+			\end{itemize}
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{block}[Constraint order matters]
+			\begin{chr}
+				set(K,V), c(K,V') <=> c(K,V)
+			\end{chr}
+			\begin{itemize}
+				\item Imagine the following query:\newline\chri{c(x,0),set(x,1),set(x,2)}
+				\item Depending on what constraint we select first, \chri{x} will be set differently
+			\end{itemize}
+			\end{block}
+		\end{column}
+	\end{columns}\par\bigskip
+	\ergo~In confluent programs, the relation between the initial and final state is a function
+	\end{wide}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle[Achieve Confluence]{Confluence}
+	\begin{columns}[t]
+		\begin{column}{0.7\textwidth}
+			\begin{itemize}
+				\item Both rules are applicable to a state containing only \chri{a}
+				\item From this, we can derive the two new states
+				\item Confluence requires then to be joinable
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.2\textwidth}
+			\begin{chr}
+				a => b
+				a => false
+			\end{chr}
+		\end{column}
+	\end{columns}\par\vskip6mm\centerline{\textcolor{gray}{\rule{\textwidth-1cm}{\smile@linewidth}}}
+	\begin{columns}[t]
+		\begin{column}{0.7\textwidth}
+			\begin{itemize}
+				\item We can make the two states joinable by adding a single rule
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.2\textwidth}
+			\begin{chr}
+				a => b
+				a => false
+				b => false
+			\end{chr}
+		\end{column}
+	\end{columns}
+	\begin{tikzpicture}[o]
+		\node[shift={(\awesome@sidebarwidth/2+5mm,7mm)}] at (current page.west) (a) {\chri{a}};
+		\node[yshift=-2cm] at (a) (e) {\chri{false} $\not\equiv$ \chri{b}};
+		\coordinate (m) at ($ (a)!0.5!(e) $);
+		\node[xshift=7mm] at (m) (x) {\chri{b}};
+		\node[xshift=-7mm] at (m) (y) {\chri{false}};
+
+		\node[roundednode,draw=gray,fill=lightgray!20,node on layer=background,dashed,lcr,fit=(a)(e)(x)(y)] {};
+
+		\draw[arrow] (a) -- (x);
+		\draw[arrow] (a) -- (y);
+		\draw[arrow] (x) -- (e);
+		\draw[arrow] (y) -- (e);
+	\end{tikzpicture}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle[Gotchas]{Confluence}
+	\begin{itemize}\setlength\itemsep{1em}
+		\item[\checkbox] Not every program can be made confluent
+			\begin{chr}
+				a => true
+				a => false
+			\end{chr}
+		\item[\checkbox] Be aware of the semantics of your program
+			\begin{chr}
+				set(K, V), c(K, V') <=> c(K, V)
+			\end{chr}
+			\faCaretUp~does not equal~\faCaretDown
+			\begin{chr}
+				set(K, V), c(K, V') <=> V = V' | c(K, V)
+			\end{chr}
+	\end{itemize}
 \end{frame}
 
 \section{References}
