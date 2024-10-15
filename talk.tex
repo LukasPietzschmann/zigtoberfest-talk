@@ -432,6 +432,39 @@
 	\end{itemize}
 \end{frame}
 
+\begin{frame}
+	\frametitle[Why we need it]{Confluence}
+	\begin{wide}
+	\begin{itemize}
+		\item If a program terminates, we can check if it's confluent
+		\item If it is, we get more cool properties for free:
+	\end{itemize}
+	\begin{columns}[b]
+		\begin{column}{0.49\textwidth}
+			\begin{block}[Incrementality]
+				\begin{itemize}
+					\item We can add constraints during the program's execution
+					\item They will eventually participate in the computation
+					\item The result will be the same as if was there from the beginning
+				\end{itemize}
+			\end{block}
+		\end{column}
+		\begin{column}{0.49\textwidth}
+			\begin{block}[Parallelism]
+				\begin{itemize}
+					\item The algorithm can be executed in parallel
+					\item Without any modifications
+				\end{itemize}
+			\end{block}
+		\end{column}
+	\end{columns}
+	\end{wide}
+\end{frame}
+
+\begin{frame}
+	\frametitle[Map-Reduce in CHR]{Declarative Concurrency}
+\end{frame}
+
 \section{References}
 \defbibheading{bibliography}[\bibname]{}
 
