@@ -202,13 +202,13 @@
 		\node[shift={(26mm,5mm)},visible on=<10->] at (bi) (BI) {\small\color{darkgray}Zig expressions};
 		\draw[textarrow,shorten <=0,visible on=<10->] (BI.west) to (bi_east);
 	\end{tikzpicture}
-	\begin{modal}<6>[Generalized Simpagation Rule]
+	\begin{modal}<beamer:6|handout:2>[Generalized Simpagation Rule]
 		\hskip5mm\par Behind the curtain, the embedding represents every rule as a 4-tuple:
 		\[\langle KH, RH, G, B \rangle\]
 		$KH$: Kept Head\hfill$RH$: Removed Head\hfill$G$: Guard\hfill$B$: Body\par\medskip
 		A propagation rule would then look like this: $\langle KH, \emptyset, G, B \rangle$
 	\end{modal}
-	\onslide<6>\begin{tikzpicture}[o,scale=0.5]
+	\onslide<beamer:6|handout:2>\begin{tikzpicture}[o,scale=0.5]
 		\pingu[small,heart=accent,halo=blue,staff right,right wing wave,shift={(2.5cm,-1.8cm)}] at (current page.south east)
 	\end{tikzpicture}
 \end{frame}
@@ -219,53 +219,53 @@
 	\begin{columns}[T]
 		\begin{column}{0.65\textwidth}
 			\begin{tikzpicture}\tikzset{query/.style={roundednode,inner sep=1.5mm,fill=lightgray!25,draw=gray,minimum width=6.7cm,text width=6.7cm}}
-				\def\q{\only<1>{\color{gray}~Query~\ldots}}
-				\only<-4>{\node[query] (Q) {\strut\cg{\ergo}\q\ttfamily~\only<2->{min(3)}\only<3->{, min(1)}\only<4->{, min(5)}};}
-				\only<5->{\node[query] (Q) {\strut\cg{\ergo}\color{gray}\ttfamily~\cb<5-7>{min(3)}, \cb<9-12>{min(1)}, \cb<14-16>{min(5)}};}
+				\def\q{\only<all:1>{\color{gray}~Query~\ldots}}
+				\only<-4>{\node[query] (Q) {\strut\cg{\ergo}\q\ttfamily~\only<all:2->{min(3)}\only<all:3->{, min(1)}\only<all:4->{, min(5)}};}
+				\only<all:5->{\node[query] (Q) {\strut\cg{\ergo}\color{gray}\ttfamily~\cb<all:5-7>{min(3)}, \cb<all:9-12>{min(1)}, \cb<all:14-16>{min(5)}};}
 			\end{tikzpicture}
 			{\ttfamily%
-				\m{ps3}\cg<6-8,10-13,15-16>{min(N)}\m{pe3}
+				\m{ps3}\cg<all:6-8,10-13,15-16>{min(N)}\m{pe3}
 				\chri{\\}
-				\m{ps4}\cg<6-8,10-13,15-16>{min(M)}\m{pe4}
+				\m{ps4}\cg<all:6-8,10-13,15-16>{min(M)}\m{pe4}
 				\chri{<=>}
-				\m{gs2}\cg<6-8,10-13,15-16>{N}\m{ge2}
+				\m{gs2}\cg<all:6-8,10-13,15-16>{N}\m{ge2}
 				\chri{<=}
-				\m{rs2}\cg<6-8,10-13,15-16>{M}\m{re2}
+				\m{rs2}\cg<all:6-8,10-13,15-16>{M}\m{re2}
 				\chri|
 				\chri{true}%
 			}\um{ps3}{pe3}{x}\um{ps4}{pe4}{y}\um{gs2}{ge2}{z}\um{rs2}{re2}{a}\par\vskip7mm
-			\ergo~\only<-4>{Add constraints to solve for}%
-			\only<5-7,10-11,15-16>{Check if we can find a matching for the currently active constraint}%
-			\only<8,12-13>{Fire the rule that matched}%
-			\only<9,14,17>{Make next query constraint active}%
-			\only<18>{The remaining constraints in the store are the solution}%
+			\ergo~\only<all:-4>{Add constraints to solve for}%
+			\only<all:5-7,10-11,15-16>{Check if we can find a matching for the currently active constraint}%
+			\only<all:8,12-13>{Fire the rule that matched}%
+			\only<all:9,14,17>{Make next query constraint active}%
+			\only<all:18>{The remaining constraints in the store are the solution}%
 		\end{column}
 		\begin{column}{0.25\textwidth}
 			\begin{tikzpicture}
 				\node[roundednode,lcr,dashed,fill=lightgray!25,draw=gray,minimum width=\awesome@sidebarwidth-3mm,minimum height=3cm,anchor=north west,xshift=\awesome@textmargin] at ([yshift=-1.5cm]current page.north west) (S) {};
 				\node[roundednode,color=black,text=white] at (S.south) {\tiny Constraint Store};
 
-				\node[anchor=north,yshift=-2mm,visible on=<8-11>] at (S.north) {\ttfamily min(3)};
-				\node[anchor=north,yshift=-2mm,visible on=<13->] at (S.north) {\ttfamily min(1)};
+				\node[anchor=north,yshift=-2mm,visible on=<all:8-11>] at (S.north) {\ttfamily min(3)};
+				\node[anchor=north,yshift=-2mm,visible on=<all:13->] at (S.north) {\ttfamily min(1)};
 			\end{tikzpicture}
 		\end{column}
 	\end{columns}
 	\begin{tikzpicture}[o]
-		\node[visible on=<6>] at (x) {\bfseries\chri{min(3)}};
-		\node[visible on=<10-12>] at (x) {\bfseries\chri{min(1)}};
-		\node[visible on=<16>] at (x) {\bfseries\chri{min(1)}};
+		\node[visible on=<all:6>] at (x) {\bfseries\chri{min(3)}};
+		\node[visible on=<all:10-12>] at (x) {\bfseries\chri{min(1)}};
+		\node[visible on=<all:16>] at (x) {\bfseries\chri{min(1)}};
 
-		\node[visible on=<7>] at (y) {\bfseries\chri{min(3)}};
-		\node[visible on=<11-12>] at (y) {\bfseries\chri{min(3)}};
-		\node[visible on=<15-16>] at (y) {\bfseries\chri{min(5)}};
+		\node[visible on=<all:7>] at (y) {\bfseries\chri{min(3)}};
+		\node[visible on=<all:11-12>] at (y) {\bfseries\chri{min(3)}};
+		\node[visible on=<all:15-16>] at (y) {\bfseries\chri{min(5)}};
 
-		\node[visible on=<6>] at (z) {\bfseries\chri{3}};
-		\node[visible on=<10-12>] at (z) {\bfseries\chri{1}};
-		\node[visible on=<16-16>] at (z) {\bfseries\chri{1}};
+		\node[visible on=<all:6>] at (z) {\bfseries\chri{3}};
+		\node[visible on=<all:10-12>] at (z) {\bfseries\chri{1}};
+		\node[visible on=<all:16-16>] at (z) {\bfseries\chri{1}};
 
-		\node[visible on=<7>] at (a) {\bfseries\chri{3}};
-		\node[visible on=<11-12>] at (a) {\bfseries\chri{3}};
-		\node[visible on=<15-16>] at (a) {\bfseries\chri{5}};
+		\node[visible on=<all:7>] at (a) {\bfseries\chri{3}};
+		\node[visible on=<all:11-12>] at (a) {\bfseries\chri{3}};
+		\node[visible on=<all:15-16>] at (a) {\bfseries\chri{5}};
 	\end{tikzpicture}
 \end{frame}
 
@@ -525,9 +525,9 @@
 			\end{tikzpicture}
 		\end{column}
 	\end{columns}
-	\begin{modal}<all:2>
+	\mode<beamer>{\begin{modal}<2>
 		\centerline{\usebox\mapredb}
-	\end{modal}
+	\end{modal}}
 \end{frame}
 
 \section{References}
