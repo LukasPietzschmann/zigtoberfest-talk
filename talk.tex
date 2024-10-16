@@ -337,32 +337,32 @@
 	\frametitle[What Confluence is]{Confluence}
 	\begin{wide}
 	\begin{columns}[c]
-		\begin{column}{0.48\textwidth}
+		\begin{column}<2->{0.48\textwidth}
 			\begin{block}[Rule order matters]
 			\begin{chr}
 				throw(Coin) <=> head
 				throw(Coin) <=> tail
 			\end{chr}
-			\begin{itemize}
+			\begin{itemize}[<+(2)->]
 				\item Depending on which rule we check first, we get a different result
 				\item That's great for coin tossing
 				\item Not so much for determinism
 			\end{itemize}
 			\end{block}
 		\end{column}
-		\begin{column}{0.48\textwidth}
+		\begin{column}<+(2)->{0.48\textwidth}
 			\begin{block}[Constraint order matters]
 			\begin{chr}
 				set(K,V), c(K,V') <=> c(K,V)
 			\end{chr}
-			\begin{itemize}
+			\begin{itemize}[<+(2)->]
 				\item Imagine the following query:\newline\chri{c(x,0),set(x,1),set(x,2)}
 				\item Depending on what constraint we select first, \chri{x} will be set differently
 			\end{itemize}
 			\end{block}
 		\end{column}
 	\end{columns}\par\bigskip
-	\ergo~In confluent programs, the relation between the initial and final state is a function
+	\onslide<+(2)->{\ergo~In confluent programs, the relation between the initial and final state is a function}
 	\end{wide}
 \end{frame}
 
@@ -371,25 +371,25 @@
 	\begin{columns}[t]
 		\begin{column}{0.7\textwidth}
 			\begin{itemize}
-				\item Both rules are applicable to a state containing only \chri{a}
-				\item From this, we can derive the two new states
-				\item Confluence requires then to be joinable
+				\item<3-> Both rules are applicable to a state containing only \chri{a}
+				\item<4-> From this, we can derive the two new states
+				\item<5-> Confluence requires then to be joinable
 			\end{itemize}
 		\end{column}
-		\begin{column}{0.2\textwidth}
+		\begin{column}<2->{0.2\textwidth}
 			\begin{chr}
 				a => b
 				a => false
 			\end{chr}
 		\end{column}
-	\end{columns}\par\vskip6mm\centerline{\textcolor{gray}{\rule{\textwidth-1cm}{\smile@linewidth}}}
+	\end{columns}\par\vskip6mm\onslide<6->{\centerline{\textcolor{gray}{\rule{\textwidth-1cm}{\smile@linewidth}}}}
 	\begin{columns}[t]
 		\begin{column}{0.7\textwidth}
 			\begin{itemize}
-				\item We can make the two states joinable by adding a single rule
+				\item<6-> We can make the two states joinable by adding a single rule
 			\end{itemize}
 		\end{column}
-		\begin{column}{0.2\textwidth}
+		\begin{column}<7->{0.2\textwidth}
 			\begin{chr}
 				a => b
 				a => false
@@ -398,30 +398,33 @@
 		\end{column}
 	\end{columns}
 	\begin{tikzpicture}[o]
-		\node[shift={(\awesome@sidebarwidth/2+5mm,7mm)}] at (current page.west) (a) {\chri{a}};
-		\node[yshift=-2cm] at (a) (e) {\chri{false} $\not\equiv$ \chri{b}};
+		\node[shift={(\awesome@sidebarwidth/2+6mm,16mm)},visible on=<3->] at (current page.west) (a) {\chri{a}};
+		\node[yshift=-2cm,visible on=<5->] at (a) (e) {\chri{false} $\not\equiv$ \chri{b}};
 		\coordinate (m) at ($ (a)!0.5!(e) $);
-		\node[xshift=7mm] at (m) (x) {\chri{b}};
-		\node[xshift=-7mm] at (m) (y) {\chri{false}};
+		\node[xshift=7mm,visible on=<4->] at (m) (x) {\chri{b}};
+		\node[xshift=-7mm,visible on=<4->] at (m) (y) {\chri{false}};
 
-		\node[roundednode,draw=gray,fill=lightgray!20,node on layer=background,dashed,lcr,fit=(a)(e)(x)(y)] {};
+		\node[roundednode,draw=gray,fill=lightgray!20,node on layer=background,dashed,lcr,fit=(a)(e)(x)(y),visible on=<3->] {};
 
-		\draw[arrow] (a) -- (x);
-		\draw[arrow] (a) -- (y);
-		\draw[arrow] (x) -- (e);
-		\draw[arrow] (y) -- (e);
+		\draw[arrow,visible on=<4->] (a) -- (x);
+		\draw[arrow,visible on=<4->] (a) -- (y);
+		\draw[arrow,visible on=<5->] (x) -- (e);
+		\draw[arrow,visible on=<5->] (y) -- (e);
 	\end{tikzpicture}
 \end{frame}
 
 \begin{frame}[fragile]
 	\frametitle[Gotchas]{Confluence}
 	\begin{itemize}\setlength\itemsep{1em}
-		\item[\checkbox] Not every program can be made confluent
+		\item<2->[\checkbox] Not every program can be made confluent
+			\begin{visibleenv}<3->
 			\begin{chr}
 				a => true
 				a => false
 			\end{chr}
-		\item[\checkbox] Be aware of the semantics of your program
+			\end{visibleenv}
+		\item<4->[\checkbox] Be aware of the semantics of your program
+			\begin{visibleenv}<5->
 			\begin{chr}
 				set(K, V), c(K, V') <=> c(K, V)
 			\end{chr}
@@ -429,6 +432,7 @@
 			\begin{chr}
 				set(K, V), c(K, V') <=> V = V' | c(K, V)
 			\end{chr}
+			\end{visibleenv}
 	\end{itemize}
 \end{frame}
 
@@ -436,27 +440,27 @@
 	\frametitle[Why we need it]{Confluence}
 	\begin{wide}
 	\begin{itemize}
-		\item If a program terminates, we can check if it's confluent
-		\item If it is, we get more cool properties for free:
+		\item<2-> If a program terminates, we can check if it's confluent
+		\item<3-> If it is, we get more cool properties for free:
 	\end{itemize}
 	\begin{columns}[b]
-		\begin{column}{0.49\textwidth}
+		\begin{column}<4->{0.49\textwidth}
 			\begin{block}[Incrementality]
 				\begin{itemize}
 					\item We can add constraints during the program's execution
-					\item They will eventually participate in the computation
-					\item The result will be the same as if was there from the beginning
+					\item<5-> They will eventually participate in the computation
+					\item<6-> The result will be the same as if was there from the beginning
 				\end{itemize}
 			\end{block}
 		\end{column}
-		\begin{column}{0.49\textwidth}
+		\begin{column}<7->{0.49\textwidth}
 			\begin{tikzpicture}[o,scale=.6]
 				\pingu[wings wave,princess crown,eyes shiny,xshift=15mm]
 			\end{tikzpicture}
 			\begin{block}[Parallelism]
 				\begin{itemize}
 					\item The algorithm can be executed in parallel
-					\item Without any modifications
+					\item<8-> Without any modifications
 				\end{itemize}
 			\end{block}
 		\end{column}
@@ -496,25 +500,32 @@
 \end{tikzpicture}}
 \begin{frame}[fragile]
 	\frametitle[Map-Reduce in CHR]{Declarative Concurrency}
+	\begin{visibleenv}<6->
 	\begin{tikzpicture}\tikzset{query/.style={roundednode,inner sep=1.5mm,fill=lightgray!25,draw=gray,minimum width=\textwidth-2mm}}
 		\node[query] (Q) {\strut};
 		\node[anchor=west] at (Q.west){\strut\cg{\ergo}~\chri{map(square), reduce(add), v(2), v(3), v(4), v(5)}};
 	\end{tikzpicture}
+	\end{visibleenv}
 	\begin{columns}[c]
 		\begin{column}{0.68\textwidth}
+			\begin{visibleenv}<4->
 			\begin{chr}
 				map(OP) \ v(X) <=>
 					C =.. [OP, X, R],
 					call(C),
 					r(R)
-
+			\end{chr}
+			\end{visibleenv}
+			\begin{visibleenv}<5->
+			\begin{chr}
 				reduce(OP) \ r(X), r(Y) <=>
 					C =.. [OP, X, Y, R],
 					call(C),
 					r(R)
 			\end{chr}
+			\end{visibleenv}
 		\end{column}
-		\begin{column}{0.25\textwidth}
+		\begin{column}<7->{0.25\textwidth}
 			\begin{tikzpicture}
 				\node[roundednode,lcr,dashed,fill=lightgray!25,draw=gray,minimum width=\awesome@sidebarwidth+4mm,minimum height=3cm,anchor=north west,xshift=\awesome@textmargin] at ([yshift=-1.5cm]current page.north west) (S) {};
 				\node[roundednode,color=black,text=white] at (S.south) {\tiny Constraint Store};
