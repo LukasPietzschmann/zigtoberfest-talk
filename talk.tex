@@ -464,8 +464,70 @@
 	\end{wide}
 \end{frame}
 
-\begin{frame}
+\newsavebox\mapredb
+\savebox\mapredb{\begin{tikzpicture}[node distance=5mm and 1cm]
+	\tikzset{
+		sarrow/.style={arrow,short=2pt},
+		map/.style={draw=blue!13!black,fill=blue!2},
+		reduce/.style={draw=red!13!black,fill=red!2},
+	}
+	\node[roundednode,dashed,lcr,fill=lightgray!20,draw=gray,inner sep=2mm] (F) {\Large\faFile*[regular]};
+	\node[roundednode,right=of F] (SP) {\rotatebox{-90}{Split}};
+	\node[roundednode,map,right=of SP] (M3) {Map};
+	\node[roundednode,map,above=of M3] (M2) {Map};
+	\node[roundednode,map,above=of M2] (M1) {Map};
+	\node[roundednode,map,below=of M3] (M4) {Map};
+	\node[roundednode,map,below=of M4] (M5) {Map};
+	\node[roundednode,right=of M3] (SH) {\rotatebox{-90}{Shuffle}};
+	\node[roundednode,reduce,right=of SH] (R2) {Reduce};
+	\node[roundednode,reduce,above=of R2] (R1) {Reduce};
+	\node[roundednode,reduce,below=of R2] (R3) {Reduce};
+	\node[roundednode,right=of R2,dashed,lcr,fill=lightgray!20,draw=gray,inner sep=2mm] (E) {\Large\faFile*[regular]};
+
+	\draw[sarrow] (F) -- (SP);
+	\foreach \x in {1,2,3,4,5} {
+		\draw[sarrow] (SP) -- (M\x);
+		\draw[sarrow] (M\x) -- (SH);
+	}
+	\foreach \x in {1,2,3} {
+		\draw[sarrow] (SH) -- (R\x);
+		\draw[sarrow] (R\x) -- (E);
+	}
+\end{tikzpicture}}
+\begin{frame}[fragile]
 	\frametitle[Map-Reduce in CHR]{Declarative Concurrency}
+	\begin{tikzpicture}\tikzset{query/.style={roundednode,inner sep=1.5mm,fill=lightgray!25,draw=gray,minimum width=\textwidth-2mm}}
+		\node[query] (Q) {\strut};
+		\node[anchor=west] at (Q.west){\strut\cg{\ergo}~\chri{map(square), reduce(add), v(2), v(3), v(4), v(5)}};
+	\end{tikzpicture}
+	\begin{columns}[c]
+		\begin{column}{0.68\textwidth}
+			\begin{chr}
+				map(OP) \ v(X) <=>
+					C =.. [OP, X, R],
+					call(C),
+					r(R)
+
+				reduce(OP) \ r(X), r(Y) <=>
+					C =.. [OP, X, Y, R],
+					call(C),
+					r(R)
+			\end{chr}
+		\end{column}
+		\begin{column}{0.25\textwidth}
+			\begin{tikzpicture}
+				\node[roundednode,lcr,dashed,fill=lightgray!25,draw=gray,minimum width=\awesome@sidebarwidth+4mm,minimum height=3cm,anchor=north west,xshift=\awesome@textmargin] at ([yshift=-1.5cm]current page.north west) (S) {};
+				\node[roundednode,color=black,text=white] at (S.south) {\tiny Constraint Store};
+
+				\node[anchor=north,yshift=-2mm] at (S.north) {\chri{reduce(add)}};
+				\node[anchor=north,yshift=-7mm] at (S.north) {\chri{map(square)}};
+				\node[anchor=north,yshift=-12mm] at (S.north) {\chri{r(29)}};
+			\end{tikzpicture}
+		\end{column}
+	\end{columns}
+	\begin{modal}<all:2>
+		\centerline{\usebox\mapredb}
+	\end{modal}
 \end{frame}
 
 \section{References}
