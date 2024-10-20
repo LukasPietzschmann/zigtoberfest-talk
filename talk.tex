@@ -15,7 +15,7 @@
 \nocite{*}
 \addbibresource{refs.bib}
 
-\usetikzlibrary{tikzmark}
+\usetikzlibrary{tikzmark,decorations.text}
 \def\m#1{\tikzmark{#1}}
 \newcommand<>\ul[5][0pt]{\begin{tikzpicture}[o,blend mode=multiply]
 	\coordinate(#5_west) at ([yshift=#1-0.25ex]pic cs:#3);
@@ -29,6 +29,7 @@
 	\coordinate(#3) at ($(#3_west)!0.5!(#3_east)$);
 \end{tikzpicture}}
 
+\usepackage{emoji}
 \usepackage{fontawesome5}
 \usepackage{tikzpingus}
 \usepackage{fancyqr}
@@ -196,10 +197,10 @@
 	\begin{tabular}{r|l|l}
 		\onslide<8->C  & Head  & CHR Constraints                           \\
 		\onslide<9->G  & Guard & Conjunction of \m{bu1s}built-ins\m{bu1e}  \\
-		\onslide<11->CN & Body  & CHR Constraints and conjunction built-ins
+		\onslide<11->CN & Body  & CHR Constraints and conjunction of built-ins
 	\end{tabular}\onslide<1->
 	\ul<10->{gray}{bu1s}{bu1e}{bi}\begin{tikzpicture}[o]
-		\node[shift={(26mm,5mm)},visible on=<10->] at (bi) (BI) {\small\color{darkgray}Zig expressions};
+		\node[shift={(23mm,5mm)},visible on=<10->] at (bi) (BI) {\small\color{darkgray}Zig code};
 		\draw[textarrow,shorten <=0,visible on=<10->] (BI.west) to (bi_east);
 	\end{tikzpicture}
 	\begin{modal}<beamer:6|handout:2>[Generalized Simpagation Rule]
@@ -309,7 +310,10 @@
 		\begin{column}{\dimexpr\textwidth-4cm\relax}
 			\begin{itemize}
 				\item The embedding's source code is available on \link GitHub to https://github.com/LukasPietzschmann/zigchr;
-				\item Or you can try it out online
+				\item Clone it and try it out yourself!
+			\end{itemize}\par\medskip
+			\begin{itemize}
+				\item Also, the repo contains some of the examples we're discussing today
 			\end{itemize}
 		\end{column}
 		\begin{column}{4cm}
@@ -326,12 +330,46 @@
 \end{frame}
 
 \section{Some interesting examples}
-% \begin{frame}
-% 	\frametitle{The Embedding}
-% 	fib example zeigen, mit generate rule
-%
-% 	map reduce als real life example
-% \end{frame}
+\begin{frame}
+	\frametitle{Anytime Algorithms}
+	\begin{itemize}[<+(1)->]
+		\item We can interrupt the execution at anytime
+		\item The intermediate state will be an approximation of the final result
+		\item After that, the program will continue like nothing happened
+	\end{itemize}
+	\begin{itemize}
+		\item<5-> This is especially useful if we need to guarantee a certain response time
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Easy Memorization}
+	\begin{itemize}
+		\item[\ergo]<3-> Quizz: Change three symbols to make this have linear complexity
+	\end{itemize}\par\bigskip
+	\begin{onlyenv}<{2,3}>
+	\begin{chr}
+		fib(0, M) <=> M = 1
+		fib(1, M) <=> M = 1
+		fib(N, M) <=> N >= 2 |
+			fib(N-1,M1), fib(N-2,M2), M is M1 + M2
+	\end{chr}
+	\end{onlyenv}
+	\begin{onlyenv}<4->
+	\begin{chr}
+		fib(0, M) ==> M = 1
+		fib(1, M) ==> M = 1
+		fib(N, M) ==> N >= 2 |
+			fib(N-1,M1), fib(N-2,M2), M is M1 + M2
+	\end{chr}
+	\end{onlyenv}
+	\par\bigskip
+	\begin{itemize}
+		\item<4-> We have to change the simplification rules to propagations
+		\item<5-> This way, we do not remove calculated values from the store
+		\item<6-> But we remember them for future use
+	\end{itemize}
+\end{frame}
 
 \begin{frame}[fragile]
 	\frametitle[What Confluence is]{Confluence}
@@ -532,13 +570,37 @@
 
 				\node[anchor=north,yshift=-2mm] at (S.north) {\chri{reduce(add)}};
 				\node[anchor=north,yshift=-7mm] at (S.north) {\chri{map(square)}};
-				\node[anchor=north,yshift=-12mm] at (S.north) {\chri{r(29)}};
+				\node[anchor=north,yshift=-12mm] at (S.north) {\chri{r(54)}};
 			\end{tikzpicture}
 		\end{column}
 	\end{columns}
 	\mode<beamer>{\begin{modal}<2>
 		\centerline{\usebox\mapredb}
 	\end{modal}}
+\end{frame}
+
+\section{TL;DR}
+\begin{frame}
+	% \frametitle{Why should anyone use this?}
+	\begin{wide}
+	\centerline{\Huge\bfseries Why should anyone use this?}
+	\end{wide}
+\end{frame}
+
+\newsavebox\epingub
+\savebox\epingub{\begin{tikzpicture}
+	\pingu[heart=accent,wings wave]
+\end{tikzpicture}}
+\begin{frame}
+	\frametitle{What's left to say}
+	\begin{wide}
+		\begin{tikzpicture}[o]
+			\path[postaction={decorate},decoration={text along path, text={|\bfseries\Huge\color{accent}|Zig is awesome},text align={fit to path}},visible on=<2->]
+				([shift={(-2.7cm,.2mm)}]current page.center) to[bend left=55] ([shift={(2.7cm,.2mm)}]current page.center);
+			\node[yshift=-7mm,visible on=<2->] (P) at (current page.center) {\usebox\epingub};
+			\node[below=of P,visible on=<3->] {\bfseries\Large\color{accent}Constraint programming, too \emoji{wink}};
+		\end{tikzpicture}
+	\end{wide}
 \end{frame}
 
 \section{References}
