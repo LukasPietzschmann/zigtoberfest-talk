@@ -54,7 +54,7 @@
 \usepackage[duration=25,defaulttransition=fade]{pdfpc}
 \newcommand<>{\talknote}[1]{\only#2{\pdfpcnote{- #1}\relax}}
 
-\background{uni.jpg}
+\background{res/uni.jpg}
 \title{Constrained Zig}
 \subtitle{Exploring properties of constraint programs}
 \author{Lukas Pietzschmann}
@@ -69,7 +69,7 @@
 \savebox\avatar{\begin{tikzpicture}
 	\node[roundnode,fill=accent,inner sep=0,outer sep=0,minimum width=1.75cm+\smile@linewidth] at (0,0) {};
 	\clip (0,0) circle (\dimexpr1.75cm/2\relax);
-	\node at (0,0) {\includegraphics[width=1.75cm]{me.png}};
+	\node at (0,0) {\includegraphics[width=1.75cm]{res/me.png}};
 \end{tikzpicture}}
 
 \def\link #1 to #2;{\def\ULdepth{.5pt}\def\ULthickness{.1pt}\uline{\href{#2}{#1}}}
@@ -274,9 +274,9 @@
 \tikzset{paper/.style={roundednode,anchor=south east,rotate=#1,shadow}}
 \newsavebox\paper
 \savebox\paper{\begin{tikzpicture}
-	\node[paper=-10,xshift=4mm] (3) {\includegraphics[page=3,width=2.5cm]{FreeCHR.pdf}};
-	\node[paper=-05,xshift=2mm] (2) {\includegraphics[page=2,width=2.5cm]{FreeCHR.pdf}};
-	\node[paper=-00,xshift=0mm] (1) {\includegraphics[page=1,width=2.5cm]{FreeCHR.pdf}};
+	\node[paper=-10,xshift=4mm] (3) {\includegraphics[page=3,width=2.5cm]{res/FreeCHR.pdf}};
+	\node[paper=-05,xshift=2mm] (2) {\includegraphics[page=2,width=2.5cm]{res/FreeCHR.pdf}};
+	\node[paper=-00,xshift=0mm] (1) {\includegraphics[page=1,width=2.5cm]{res/FreeCHR.pdf}};
 \end{tikzpicture}}
 \begin{frame}
 	\frametitle{Inner workings of the Embedding}
